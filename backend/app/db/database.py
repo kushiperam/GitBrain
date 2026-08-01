@@ -14,8 +14,5 @@ SessionLocal = sessionmaker(
     bind=engine
 )
 
-
 from app.db.base import Base
 import app.models.user
-
-Base.metadata.create_all(bind=engine)
