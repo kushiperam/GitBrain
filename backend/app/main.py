@@ -2,6 +2,9 @@ from fastapi import FastAPI
 
 from app.api.routes.home import router as home_router
 from app.core.config import settings
+from app.core.logger import logger
+
+logger.info("Starting GitBrain application...")
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -10,3 +13,5 @@ app = FastAPI(
 )
 
 app.include_router(home_router)
+
+logger.info("GitBrain application started successfully.")
