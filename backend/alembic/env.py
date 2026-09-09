@@ -5,10 +5,12 @@ from sqlalchemy import engine_from_config, pool
 from alembic import context
 
 from app.db.base import Base
+from app.core.config import settings
 import app.models.user
 
 # this is the Alembic Config object
 config = context.config
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
 # Configure logging
 if config.config_file_name is not None:
