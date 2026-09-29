@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from sqlalchemy.orm import Session
 
 from app.schemas.repository import RepositoryCreate
@@ -13,6 +15,7 @@ from app.services.file_scanner import scan_repository
 from app.services.language_detector import detect_languages
 from app.services.dependency_detector import detect_dependencies
 from app.services.tree_builder import build_directory_tree
+from app.services.repository_analyzer import analyze_repository
 
 
 def create_new_repository(
@@ -26,21 +29,52 @@ def create_new_repository(
         owner_id,
     )
 
-    local_path = clone_repository(new_repository.url)
+    # Decide where the repository is located.
+    if new_repository.source_type == "local":
+        if not new_repository.local_path:
+            raise ValueError(
+                "Local repository must have a local_path."
+            )
 
-    print("Repository cloned:", local_path)
+        local_path = Path(new_repository.local_path)
 
+        if not local_path.exists():
+            raise ValueError(
+                "The specified local repository path does not exist."
+            )
 
-    files = scan_repository(local_path)
+        if not local_path.is_dir():
+            raise ValueError(
+                "The specified local repository path is not a folder."
+            )
 
-    print(f"Scanned {len(files)} files.")
+        print(
+            "Using local repository:",
+            local_path
+        )
 
+    else:
+        local_path = clone_repository(
+            new_repository.url
+        )
+
+        print(
+            "Repository cloned:",
+            local_path
+        )
+
+    files = scan_repository(
+        str(local_path)
+    )
+
+    print(
+        f"Scanned {len(files)} files."
+    )
 
     languages = detect_languages(files)
 
     print("Languages:")
     print(languages)
-
 
     dependencies = detect_dependencies(files)
 
@@ -49,19 +83,28 @@ def create_new_repository(
     for dependency in dependencies:
         print(dependency)
 
-
     # Phase 21: Build Repository Directory Tree
     tree = build_directory_tree(
-        local_path
+        str(local_path)
     )
 
     print("Repository Tree Created")
 
     print(tree)
 
+    # Phase 22: Analyze Python source files
+    analysis = analyze_repository(
+        str(local_path)
+    )
+
+    print(
+        f"Analyzed {len(analysis)} Python files."
+    )
+
+    for item in analysis[:5]:
+        print(item)
 
     return new_repository
-
 
 
 def fetch_repository(
@@ -78,7 +121,6 @@ def fetch_repository(
         return None
 
     return repository
-
 
 
 def fetch_user_repositories(

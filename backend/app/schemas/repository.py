@@ -8,7 +8,8 @@ class RepositoryBase(BaseModel):
 
 
 class RepositoryCreate(RepositoryBase):
-    pass
+    source_type: str = "github"
+    local_path: str | None = None
 
 
 class RepositoryResponse(RepositoryBase):
@@ -17,3 +18,5 @@ class RepositoryResponse(RepositoryBase):
     id: int
     owner_id: int
     created_at: datetime
+    source_type: str
+    local_path: str | None = None

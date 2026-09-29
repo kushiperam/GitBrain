@@ -4,7 +4,6 @@ from app.models.repository import Repository
 from app.schemas.repository import RepositoryCreate
 
 
-
 def create_repository(
     db: Session,
     repository_data: RepositoryCreate,
@@ -13,6 +12,16 @@ def create_repository(
     repository = Repository(
         name=repository_data.name,
         url=repository_data.url,
+        source_type=getattr(
+            repository_data,
+            "source_type",
+            "github"
+        ),
+        local_path=getattr(
+            repository_data,
+            "local_path",
+            None
+        ),
         owner_id=owner_id
     )
 
@@ -21,7 +30,6 @@ def create_repository(
     db.refresh(repository)
 
     return repository
-
 
 
 def get_repository_by_id(
@@ -33,7 +41,6 @@ def get_repository_by_id(
         .filter(Repository.id == repository_id)
         .first()
     )
-
 
 
 def get_user_repositories(

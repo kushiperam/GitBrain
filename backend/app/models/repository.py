@@ -8,11 +8,33 @@ from app.db.session import Base
 class Repository(Base):
     __tablename__ = "repositories"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
 
-    name = Column(String, nullable=False)
+    name = Column(
+        String,
+        nullable=False
+    )
 
-    url = Column(String, nullable=False)
+    url = Column(
+        String,
+        nullable=False
+    )
+
+    source_type = Column(
+        String,
+        nullable=False,
+        default="github",
+        server_default="github"
+    )
+
+    local_path = Column(
+        String,
+        nullable=True
+    )
 
     owner_id = Column(
         Integer,

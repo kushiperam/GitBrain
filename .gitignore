@@ -1,0 +1,69 @@
+# =========================
+# Environment & Secrets
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# =========================
+# Testing / Coverage
+# =========================
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Python tooling
+# =========================
+.mypy_cache/
+.ruff_cache/
+
+# =========================
+# Node / React
+# =========================
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# GitBrain local repository data
+# =========================
+backend/repositories/
+
+# =========================
+# Temporary files
+# =========================
+*.tmp
+*.temp

@@ -10,7 +10,10 @@ import app.models.user
 
 # this is the Alembic Config object
 config = context.config
-config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+config.set_main_option(
+    "sqlalchemy.url",
+    settings.DATABASE_URL.replace("%", "%%")
+)
 
 # Configure logging
 if config.config_file_name is not None:
